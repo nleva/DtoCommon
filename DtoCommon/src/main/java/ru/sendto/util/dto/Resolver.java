@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Set;
 
 import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -56,7 +57,7 @@ public class Resolver implements TypeIdResolver {
 	static public BiMap<String, Class<?>> fillMap() {
 		if (!map.isEmpty())
 			return map;
-		Reflections reflections = new Reflections("ru.sendto");
+		Reflections reflections = new Reflections(new SubTypesScanner(false));
 		Set<Class<? extends Dto>> sub = reflections.getSubTypesOf(Dto.class);
 		sub.forEach(clz -> {
 			String id;
