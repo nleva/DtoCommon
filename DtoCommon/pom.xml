@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ru.send-to.dto</groupId>
 	<artifactId>DtoCommon</artifactId>
-	<version>0.0.7-SNAPSHOT</version>
+	<version>0.1.2</version>
 	<name>DTO Base project</name>
 	<description>Dto base class and serialization util classes</description>
 	<url>http://github.com/nleva/DtoCommon</url>
@@ -24,7 +24,7 @@
 		<url>https://github.com/nleva/DtoCommon</url>
 		<connection>scm:git:https://github.com/nleva/DtoCommon.git</connection>
 		<developerConnection>scm:git:https://github.com/nleva/DtoCommon.git</developerConnection>
-	  <tag>HEAD</tag>
+	  <tag>DtoCommon-0.1.2</tag>
   </scm>
 
 	<developers>
