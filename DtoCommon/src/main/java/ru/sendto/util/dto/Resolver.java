@@ -1,10 +1,11 @@
 package ru.sendto.util.dto;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.Base64;
 import java.util.Set;
 
 import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -63,9 +64,10 @@ public class Resolver implements TypeIdResolver {
 			String id;
 			JsonTypeName typeName = clz.getAnnotation(JsonTypeName.class);
 			if (typeName != null && !(id = typeName.value()).isEmpty() && !map.containsKey(id)) {
-			} else if (!map.containsKey(id = clz.getSimpleName().replaceAll("[^A-Z0-9]", ""))) {
-			} else if (!map.containsKey(id = clz.getSimpleName())) {
+//			} else if (!map.containsKey(id = clz.getSimpleName().replaceAll("[^A-Z0-9]", ""))) {
+//			} else if (!map.containsKey(id = clz.getSimpleName())) {
 				// } else if (!map.containsKey(id = clz.getName())) {
+			} else if (!map.containsKey(id = Base64.getEncoder().withoutPadding().encodeToString(ByteBuffer.allocate(4).putInt(clz.getCanonicalName().hashCode()).array()))) {
 			} else if (!map.containsKey(id = clz.getCanonicalName())) {
 			} else {
 				throw new RuntimeException("Resolver cann`t create id for " +
@@ -75,6 +77,7 @@ public class Resolver implements TypeIdResolver {
 			map.put(id, clz);
 
 		});
+		System.out.println(map);
 		return map;
 	}
 

@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 
-import lombok.Data;
 import ru.sendto.util.dto.Resolver;
 
 /**
@@ -19,6 +18,5 @@ import ru.sendto.util.dto.Resolver;
 @JsonTypeIdResolver(Resolver.class)
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Data
-public class Dto {
+public interface Dto {
 }

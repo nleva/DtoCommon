@@ -5,6 +5,6 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false) 
-public class ErrorDto extends Dto {
+public class ErrorDto implements Dto {
 	String error;
 }
