@@ -6,14 +6,15 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * Class for exceptions
+ * Class to create requests
  * 
  * @author Lev Nadeinsky
  * @date	2017-08-07
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-@JsonTypeName("error")
-public class ErrorDto extends Dto {
-	String error;
+@EqualsAndHashCode(callSuper = false) 
+@JsonTypeName("pr")
+public class PageRequest<T extends Dto> extends Dto {
+	T request;
+	int page;
 }

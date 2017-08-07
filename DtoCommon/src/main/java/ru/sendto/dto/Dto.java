@@ -11,8 +11,8 @@ import lombok.Data;
 import ru.sendto.util.dto.Resolver;
 
 /**
- * Родительский класс для dto.
- * Его наследники на клиенте автоматом приводятся к нужным подтипам.
+ * Base class for all DTOs.
+ * With polymorphic behavior. 
  */
 
 @JsonTypeInfo(use=Id.NAME, include=As.PROPERTY, property="@")
