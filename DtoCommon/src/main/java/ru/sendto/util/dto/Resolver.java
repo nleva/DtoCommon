@@ -1,10 +1,10 @@
 package ru.sendto.util.dto;
 
 import java.io.IOException;
+import java.lang.reflect.Modifier;
 import java.util.Set;
 
 import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -60,6 +60,10 @@ public class Resolver implements TypeIdResolver {
 		Reflections reflections = new Reflections("ru");
 		Set<Class<? extends Dto>> sub = reflections.getSubTypesOf(Dto.class);
 		sub.forEach(clz -> {
+			
+			if(Modifier.isAbstract(clz.getModifiers()))
+				return;
+			
 			String id;
 			JsonTypeName typeName = clz.getAnnotation(JsonTypeName.class);
 			if (typeName != null && !(id = typeName.value()).isEmpty() && !map.containsKey(id)) {
