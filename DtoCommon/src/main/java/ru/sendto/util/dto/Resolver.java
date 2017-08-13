@@ -3,6 +3,7 @@ package ru.sendto.util.dto;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Base64;
+import java.lang.reflect.Modifier;
 import java.util.Set;
 
 import org.reflections.Reflections;
@@ -61,6 +62,10 @@ public class Resolver implements TypeIdResolver {
 		Reflections reflections = new Reflections("ru");
 		Set<Class<? extends Dto>> sub = reflections.getSubTypesOf(Dto.class);
 		sub.forEach(clz -> {
+			
+			if(Modifier.isAbstract(clz.getModifiers()))
+				return;
+			
 			String id;
 			JsonTypeName typeName = clz.getAnnotation(JsonTypeName.class);
 			if (typeName != null && !(id = typeName.value()).isEmpty() && !map.containsKey(id)) {

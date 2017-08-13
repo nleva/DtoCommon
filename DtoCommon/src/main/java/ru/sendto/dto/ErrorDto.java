@@ -9,7 +9,6 @@ import lombok.EqualsAndHashCode;
  * Class for exceptions
  * 
  * @author Lev Nadeinsky
- * @date	2017-08-07
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
