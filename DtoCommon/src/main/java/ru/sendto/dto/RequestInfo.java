@@ -15,11 +15,9 @@ import lombok.Setter;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@JsonTypeName("error")
-<<<<<<< Upstream, based on master
-public class ErrorDto implements Dto {
-=======
-public class ErrorDto extends RequestInfo {
->>>>>>> 820eada request type info   request type info added to ErrorDto added to pageResponse
-	String error;
+@JsonTypeName("ref")
+public class RequestInfo extends Dto {
+	@Getter(value=AccessLevel.PACKAGE)
+	@Setter(value=AccessLevel.PACKAGE)
+	Dto r;
 }
