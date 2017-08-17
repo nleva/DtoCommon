@@ -2,15 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ru.send-to.dto</groupId>
 	<artifactId>DtoCommon</artifactId>
-<<<<<<< Upstream, based on master
-<<<<<<< Upstream, based on master
 	<version>0.3.3-SNAPSHOT</version>
-=======
-	<version>0.3.0-SNAPSHOT</version>
->>>>>>> 820eada request type info   request type info added to ErrorDto added to pageResponse
-=======
-	<version>0.3.0</version>
->>>>>>> 7380f6a [maven-release-plugin] prepare release DtoCommon-0.3.0
 	<name>DTO Base project</name>
 	<description>Dto base class and serialization util classes</description>
 	<url>http://github.com/nleva/DtoCommon</url>
