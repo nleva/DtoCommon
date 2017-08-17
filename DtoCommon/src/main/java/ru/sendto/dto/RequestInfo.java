@@ -15,7 +15,9 @@ import lombok.Setter;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@JsonTypeName("error")
-public class ErrorDto extends RequestInfo {
-	String error;
+@JsonTypeName("ref")
+public class RequestInfo extends Dto {
+	@Getter(value=AccessLevel.PACKAGE)
+	@Setter(value=AccessLevel.PACKAGE)
+	Dto r;
 }

@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false) 
 @JsonTypeName("p")
-public abstract class Page<T extends Dto> extends Dto {
+public abstract class Page<T extends Dto> extends RequestInfo {
 	List<T> list;
 	int current;
 	int total;
