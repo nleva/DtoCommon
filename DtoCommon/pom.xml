@@ -24,10 +24,6 @@
 		<url>https://github.com/nleva/DtoCommon</url>
 		<connection>scm:git:https://github.com/nleva/DtoCommon.git</connection>
 		<developerConnection>scm:git:https://github.com/nleva/DtoCommon.git</developerConnection>
-<<<<<<< Upstream, based on master
-=======
-	  <tag>DtoCommon-0.3.0</tag>
->>>>>>> 7380f6a [maven-release-plugin] prepare release DtoCommon-0.3.0
   </scm>
 
 	<developers>
