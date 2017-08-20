@@ -2,11 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ru.send-to.dto</groupId>
 	<artifactId>DtoCommon</artifactId>
-<<<<<<< Upstream, based on master
 	<version>0.3.3-SNAPSHOT</version>
-=======
-	<version>0.3.2-SNAPSHOT</version>
->>>>>>> ed0c14d [maven-release-plugin] prepare for next development iteration
 	<name>DTO Base project</name>
 	<description>Dto base class and serialization util classes</description>
 	<url>http://github.com/nleva/DtoCommon</url>
@@ -28,10 +24,6 @@
 		<url>https://github.com/nleva/DtoCommon</url>
 		<connection>scm:git:https://github.com/nleva/DtoCommon.git</connection>
 		<developerConnection>scm:git:https://github.com/nleva/DtoCommon.git</developerConnection>
-<<<<<<< Upstream, based on master
-=======
-    <tag>HEAD</tag>
->>>>>>> ed0c14d [maven-release-plugin] prepare for next development iteration
   </scm>
 
 	<developers>
