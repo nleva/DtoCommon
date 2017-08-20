@@ -1,5 +1,6 @@
 package ru.sendto.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 import lombok.AccessLevel;
@@ -17,7 +18,6 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper = false)
 @JsonTypeName("ref")
 public class RequestInfo extends Dto {
-	@Getter(value=AccessLevel.PACKAGE)
-	@Setter(value=AccessLevel.PACKAGE)
-	Dto r;
+	@JsonProperty("r")
+	Dto request;
 }
