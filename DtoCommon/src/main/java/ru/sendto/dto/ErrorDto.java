@@ -15,6 +15,6 @@ import lombok.Setter;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @JsonTypeName("error")
-public class ErrorDto implements Dto {
+public class ErrorDto extends Dto {
 	String error;
 }

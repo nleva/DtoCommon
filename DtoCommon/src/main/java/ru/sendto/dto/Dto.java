@@ -18,5 +18,5 @@ import ru.sendto.util.dto.Resolver;
 @JsonTypeIdResolver(Resolver.class)
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public interface Dto {
+public class Dto {
 }
