@@ -59,7 +59,7 @@ public class Resolver implements TypeIdResolver {
 	static public BiMap<String, Class<?>> fillMap() {
 		if (!map.isEmpty())
 			return map;
-		Reflections reflections = new Reflections("ru");
+		Reflections reflections = new Reflections();
 		Set<Class<? extends Dto>> sub = reflections.getSubTypesOf(Dto.class);
 		sub.forEach(clz -> {
 			
