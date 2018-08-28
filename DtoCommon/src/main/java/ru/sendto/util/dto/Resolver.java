@@ -2,9 +2,14 @@ package ru.sendto.util.dto;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.Collections;
 import java.lang.reflect.Modifier;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.reflections.Reflections;
 
@@ -59,9 +64,18 @@ public class Resolver implements TypeIdResolver {
 	static public BiMap<String, Class<?>> fillMap() {
 		if (!map.isEmpty())
 			return map;
-		Reflections reflections = new Reflections();
-		Set<Class<? extends Dto>> sub = reflections.getSubTypesOf(Dto.class);
-		sub.forEach(clz -> {
+		Set<Class<? extends Dto>> sub = Collections.newSetFromMap(new ConcurrentHashMap<>());
+		
+		
+		Stream<String> pkgs = Arrays.stream(System.getenv("ru.sendto.util.dto.packages").split(","));
+		Stream<String> defaultPkgs = Arrays.stream(new String[] {"ru.sendto.dto","dto"});
+		
+		Stream.concat(pkgs,defaultPkgs)
+			.peek(String::trim)
+			.filter(s->!s.isEmpty())
+			.distinct().map(Reflections::new)
+			.flatMap(r->r.getSubTypesOf(Dto.class).stream())
+			.forEach(clz -> {
 			
 			if(Modifier.isAbstract(clz.getModifiers()))
 				return;
