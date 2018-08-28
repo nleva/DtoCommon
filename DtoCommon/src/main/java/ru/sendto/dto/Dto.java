@@ -14,7 +14,7 @@ import ru.sendto.util.dto.Resolver;
  * With polymorphic behavior. 
  */
 
-@JsonTypeInfo(use=Id.NAME, include=As.PROPERTY, property="@")
+@JsonTypeInfo(use=Id.NAME, include=As.WRAPPER_OBJECT, property="@")
 @JsonTypeIdResolver(Resolver.class)
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 @JsonIgnoreProperties(ignoreUnknown = true)
