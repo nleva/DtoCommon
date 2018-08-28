@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.Optional;
 import java.lang.reflect.Modifier;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -66,11 +67,12 @@ public class Resolver implements TypeIdResolver {
 			return map;
 		Set<Class<? extends Dto>> sub = Collections.newSetFromMap(new ConcurrentHashMap<>());
 		
-		
-		Stream<String> pkgs = Arrays.stream(System.getenv("ru.sendto.util.dto.packages").split(","));
+
+		Stream<String> propsPkgs = Arrays.stream(Optional.ofNullable(System.getProperty("ru.sendto.util.dto.packages")).orElse("").split(","));
+		Stream<String> envPkgs = Arrays.stream(Optional.ofNullable(System.getenv("ru_sendto_util_dto_packages")).orElse("").split(","));
 		Stream<String> defaultPkgs = Arrays.stream(new String[] {"ru.sendto.dto","dto"});
 		
-		Stream.concat(pkgs,defaultPkgs)
+		Stream.concat(Stream.concat(propsPkgs,defaultPkgs),envPkgs)
 			.peek(String::trim)
 			.filter(s->!s.isEmpty())
 			.distinct().map(Reflections::new)
