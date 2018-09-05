@@ -62,14 +62,16 @@ public class Resolver implements TypeIdResolver {
 
 	}
 
+	static final String propKey = "DTO_LOOKUP_PACKAGES";
+	
 	static public BiMap<String, Class<?>> fillMap() {
 		if (!map.isEmpty())
 			return map;
 		Set<Class<? extends Dto>> sub = Collections.newSetFromMap(new ConcurrentHashMap<>());
 		
 
-		Stream<String> propsPkgs = Arrays.stream(Optional.ofNullable(System.getProperty("ru.sendto.util.dto.packages")).orElse("").split(","));
-		Stream<String> envPkgs = Arrays.stream(Optional.ofNullable(System.getenv("ru_sendto_util_dto_packages")).orElse("").split(","));
+		Stream<String> propsPkgs = Arrays.stream(Optional.ofNullable(System.getProperty(propKey)).orElse("").split(","));
+		Stream<String> envPkgs = Arrays.stream(Optional.ofNullable(System.getenv(propKey)).orElse("").split(","));
 		Stream<String> defaultPkgs = Arrays.stream(new String[] {"ru.sendto.dto","dto"});
 		
 		Stream.concat(Stream.concat(propsPkgs,defaultPkgs),envPkgs)
