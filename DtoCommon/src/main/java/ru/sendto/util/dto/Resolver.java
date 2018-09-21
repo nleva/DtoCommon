@@ -1,6 +1,8 @@
 package ru.sendto.util.dto;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Base64;
@@ -12,7 +14,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.naming.Reference;
+
 import org.reflections.Reflections;
+import org.reflections.util.FilterBuilder;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -67,8 +72,13 @@ public class Resolver implements TypeIdResolver {
 	static public BiMap<String, Class<?>> fillMap() {
 		if (!map.isEmpty())
 			return map;
-		Set<Class<? extends Dto>> sub = Collections.newSetFromMap(new ConcurrentHashMap<>());
 		
+		Set<Class<? extends Dto>> staticSub = Reflections.collect().getSubTypesOf(Dto.class);
+		if(staticSub!=null && !staticSub.isEmpty()) {
+			staticSub.forEach(Resolver::putClassToMap);
+			System.out.println(map);
+			return map;
+		}
 
 		Stream<String> propsPkgs = Arrays.stream(Optional.ofNullable(System.getProperty(propKey)).orElse("").split(","));
 		Stream<String> envPkgs = Arrays.stream(Optional.ofNullable(System.getenv(propKey)).orElse("").split(","));
@@ -79,29 +89,29 @@ public class Resolver implements TypeIdResolver {
 			.filter(s->!s.isEmpty())
 			.distinct().map(Reflections::new)
 			.flatMap(r->r.getSubTypesOf(Dto.class).stream())
-			.forEach(clz -> {
-			
-			if(Modifier.isAbstract(clz.getModifiers()))
-				return;
-			
-			String id;
-			JsonTypeName typeName = clz.getAnnotation(JsonTypeName.class);
-			if (typeName != null && !(id = typeName.value()).isEmpty() && !map.containsKey(id)) {
-//			} else if (!map.containsKey(id = clz.getSimpleName().replaceAll("[^A-Z0-9]", ""))) {
-//			} else if (!map.containsKey(id = clz.getSimpleName())) {
-				// } else if (!map.containsKey(id = clz.getName())) {
-			} else if (!map.containsKey(id = Base64.getEncoder().withoutPadding().encodeToString(ByteBuffer.allocate(4).putInt(clz.getCanonicalName().hashCode()).array()))) {
-			} else if (!map.containsKey(id = clz.getCanonicalName())) {
-			} else {
-				throw new RuntimeException("Resolver cann`t create id for " +
-						clz.getCanonicalName() + ". "
-						+ "There are another classes with the same id. Try another @JsonTypeName.");
-			}
-			map.put(id, clz);
-
-		});
+			.forEach(Resolver::putClassToMap);
 		System.out.println(map);
 		return map;
+	}
+
+	private static void putClassToMap(Class<? extends Dto> clz) {
+		if(Modifier.isAbstract(clz.getModifiers()))
+			return;
+		
+		String id;
+		JsonTypeName typeName = clz.getAnnotation(JsonTypeName.class);
+		if (typeName != null && !(id = typeName.value()).isEmpty() && !map.containsKey(id)) {
+//			} else if (!map.containsKey(id = clz.getSimpleName().replaceAll("[^A-Z0-9]", ""))) {
+//			} else if (!map.containsKey(id = clz.getSimpleName())) {
+			// } else if (!map.containsKey(id = clz.getName())) {
+		} else if (!map.containsKey(id = Base64.getEncoder().withoutPadding().encodeToString(ByteBuffer.allocate(4).putInt(clz.getCanonicalName().hashCode()).array()))) {
+		} else if (!map.containsKey(id = clz.getCanonicalName())) {
+		} else {
+			throw new RuntimeException("Resolver cann`t create id for " +
+					clz.getCanonicalName() + ". "
+					+ "There are another classes with the same id. Try another @JsonTypeName.");
+		}
+		map.put(id, clz);
 	}
 
 	@Override
