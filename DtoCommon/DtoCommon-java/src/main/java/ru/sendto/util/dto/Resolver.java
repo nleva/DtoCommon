@@ -28,8 +28,10 @@ import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
+import lombok.extern.java.Log;
 import ru.sendto.dto.Dto;
 
+@Log
 public class Resolver implements TypeIdResolver {
 
 	@Override
@@ -90,21 +92,30 @@ public class Resolver implements TypeIdResolver {
 	private static void putClassToMap(Class<? extends Dto> clz) {
 		if(Modifier.isAbstract(clz.getModifiers()))
 			return;
-		
-		String id;
-		JsonTypeName typeName = clz.getAnnotation(JsonTypeName.class);
-		if (typeName != null && !(id = typeName.value()).isEmpty() && !map.containsKey(id)) {
-//			} else if (!map.containsKey(id = clz.getSimpleName().replaceAll("[^A-Z0-9]", ""))) {
-//			} else if (!map.containsKey(id = clz.getSimpleName())) {
-			// } else if (!map.containsKey(id = clz.getName())) {
-		} else if (!map.containsKey(id = Base64.getEncoder().withoutPadding().encodeToString(ByteBuffer.allocate(4).putInt(clz.getCanonicalName().hashCode()).array()))) {
-		} else if (!map.containsKey(id = clz.getCanonicalName())) {
-		} else {
-			throw new RuntimeException("Resolver cann`t create id for " +
-					clz.getCanonicalName() + ". "
-					+ "There are another classes with the same id. Try another @JsonTypeName.");
+		try {
+			String id;
+			JsonTypeName typeName = clz.getAnnotation(JsonTypeName.class);
+			if (typeName != null && !(id = typeName.value()).isEmpty() && !map.containsKey(id)) {
+	//			} else if (!map.containsKey(id = clz.getSimpleName().replaceAll("[^A-Z0-9]", ""))) {
+	//			} else if (!map.containsKey(id = clz.getSimpleName())) {
+				// } else if (!map.containsKey(id = clz.getName())) {
+			} else if (!map.containsKey(id = Base64.getEncoder().withoutPadding().encodeToString(ByteBuffer.allocate(4).putInt(clz.getCanonicalName().hashCode()).array()))) {
+			} else if (!map.containsKey(id = clz.getCanonicalName())) {
+			} else {
+				throw new RuntimeException("Resolver cann`t create id for " +
+						clz.getCanonicalName() + ". "
+						+ "There are another classes with the same id. Try another @JsonTypeName.");
+			}
+			map.put(id, clz);
+		}catch (IllegalArgumentException e) {
+			log.warning("class ["
+					+ clz.getName()
+					+ "] not added second time. Maybe problem with the envourement: props("
+					+ System.getProperty(propKey)
+					+ "); env("
+					+ System.getenv(propKey)
+					+ ")");
 		}
-		map.put(id, clz);
 	}
 
 	@Override
