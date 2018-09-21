@@ -28,7 +28,7 @@
 	<scm>
 		<url>https://github.com/nleva/DtoCommon</url>
 		<connection>scm:git:https://github.com/nleva/DtoCommon.git</connection>
-		<developerConnection>scm:git:nleva@github.com:nleva/DtoCommon.git</developerConnection>
+		<developerConnection>scm:git:git@github.com:nleva/DtoCommon.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 
