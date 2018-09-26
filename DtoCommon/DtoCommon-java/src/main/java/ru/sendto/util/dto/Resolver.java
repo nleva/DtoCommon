@@ -1,23 +1,14 @@
 package ru.sendto.util.dto;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.lang.reflect.Modifier;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Base64;
-import java.util.Collections;
 import java.util.Optional;
-import java.lang.reflect.Modifier;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.naming.Reference;
-
 import org.reflections.Reflections;
-import org.reflections.util.FilterBuilder;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -77,7 +68,7 @@ public class Resolver implements TypeIdResolver {
 		
 		Stream<String> propsPkgs = Arrays.stream(Optional.ofNullable(System.getProperty(propKey)).orElse("").split(","));
 		Stream<String> envPkgs = Arrays.stream(Optional.ofNullable(System.getenv(propKey)).orElse("").split(","));
-		Stream<String> defaultPkgs = Arrays.stream(new String[] {"ru.sendto.dto","dto"});
+		Stream<String> defaultPkgs = Arrays.stream(new String[] {"ru.sendto.dto"});
 		
 		Stream.concat(Stream.concat(propsPkgs,defaultPkgs),envPkgs)
 			.peek(String::trim)
